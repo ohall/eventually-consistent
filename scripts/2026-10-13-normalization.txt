@@ -1,0 +1,23 @@
+Hey, welcome to Tech bites. This is day four of seventy seven, and today we're talking about normalization.
+
+Here's the one sentence version. Normalization means designing your database tables so that every fact lives in exactly one place. Instead of copying the same information across lots of rows, you split it into separate tables and link them together with keys.
+
+So why bother? Because copies drift. Imagine a customer's email address is stored on every single order they've ever placed. They change their email, you update one row, and you miss another. Now your database holds two different answers to the same question, and you have no idea which one is right. That kind of problem has a name: an update anomaly. Normalization exists to make update anomalies impossible by design.
+
+There's a ladder of rules for this, called normal forms. Let's walk up the first three rungs.
+
+First normal form says every column holds a single value. So no stuffing a comma separated list of tags into one column. If an item has five tags, that's five rows in a tags table, not one messy string.
+
+Second normal form says every non key column has to depend on the whole key. This matters when your key is made of two columns together. If some column only depends on half of that key, it's in the wrong table and should move out.
+
+Third normal form says non key columns shouldn't depend on other non key columns. The classic example is zip code and city. If the zip code already decides the city, then storing both in the same table means they can disagree. Pull that relationship out into its own place.
+
+Let's make it concrete. Say you have an orders table in Postgres, and every order row carries the customer's name and the customer's email. A loyal customer with two hundred orders has their email copied two hundred times. To normalize, you create a customers table that holds the name and email once. The orders table keeps just a customer I D, which is a foreign key, meaning a column that points to a row in another table. Now changing an email touches exactly one row. And as a bonus, the foreign key guarantees every order points to a customer who actually exists.
+
+Of course, there's a trade off. Once your data is split up, reading it back means joins. With the right indexes, joins are usually cheap, but on a really hot read path they add up, and across shards, meaning separate database servers, they get genuinely hard.
+
+And here's a subtle one. Some things should be copied on purpose. The price on an order line should be the price the customer actually paid that day. If it pointed at the current product price, last year's receipts would quietly change every time you ran a sale. That's not duplication, that's history.
+
+If that sounds familiar, it's because yesterday we covered denormalization, which is the deliberate reverse: copying data back in for read speed, and accepting the job of keeping those copies in sync.
+
+So the takeaway: store each fact once, link with keys, and copy only when you mean it. That's your tech bite for today. See you tomorrow.

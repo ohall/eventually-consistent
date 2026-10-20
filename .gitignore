@@ -1,0 +1,28 @@
+# Virtual environments
+.venv/
+.venv-*/
+venv/
+# Python
+__pycache__/
+*.pyc
+# Model caches / weights
+.cache/
+*.onnx
+*.onnx.json
+*.pt
+*.safetensors
+*.bin
+# Audio (hosted on Vercel, not in git)
+*.mp3
+*.wav
+*.m4a
+*.ogg
+*.flac
+site/episodes/
+# Vercel deploy payloads (base64 copies of site files incl. audio)
+deploy/
+.vercel/
+# Logs and secrets
+*.log
+.env
+.env.*

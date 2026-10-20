@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+  <title>Eventually Consistent</title>
+  <link>https://tech-bites-podcast.vercel.app/</link>
+  <atom:link href="https://tech-bites-podcast.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
+  <language>en-us</language>
+  <description>A daily bite-sized explainer of one systems/backend concept.</description>
+  <itunes:summary>A daily bite-sized explainer of one systems/backend concept.</itunes:summary>
+  <itunes:author>Oakley Hall</itunes:author>
+  <itunes:owner><itunes:name>Oakley Hall</itunes:name></itunes:owner>
+  <itunes:image href="https://tech-bites-podcast.vercel.app/cover.jpg"/>
+  <image><url>https://tech-bites-podcast.vercel.app/cover.jpg</url><title>Eventually Consistent</title><link>https://tech-bites-podcast.vercel.app/</link></image>
+  <itunes:category text="Technology"/>
+  <itunes:explicit>false</itunes:explicit>
+  <itunes:type>episodic</itunes:type>
+  <lastBuildDate>Mon, 19 Oct 2026 12:38:12 +0000</lastBuildDate>
+  <item>
+    <title>Day 10: CAP theorem</title>
+    <description>CAP theorem: when the network splits, you choose consistency or availability, and PACELC adds latency to the everyday picture.</description>
+    <itunes:summary>CAP theorem: when the network splits, you choose consistency or availability, and PACELC adds latency to the everyday picture.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-19-cap-theorem.mp3" length="1581666" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-19-cap-theorem</guid>
+    <pubDate>Mon, 19 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>198</itunes:duration>
+    <itunes:episode>10</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 9: Consensus</title>
+    <description>How Raft and Paxos get a cluster to agree on one answer, why etcd stops writes without a majority, and what that costs.</description>
+    <itunes:summary>How Raft and Paxos get a cluster to agree on one answer, why etcd stops writes without a majority, and what that costs.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-18-consensus.mp3" length="1406123" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-18-consensus</guid>
+    <pubDate>Sun, 18 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>176</itunes:duration>
+    <itunes:episode>9</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 8: Quorum</title>
+    <description>Quorums: how R plus W greater than N lets replicated databases tolerate failures and still read recent writes.</description>
+    <itunes:summary>Quorums: how R plus W greater than N lets replicated databases tolerate failures and still read recent writes.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-17-quorum.mp3" length="1522316" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-17-quorum</guid>
+    <pubDate>Sat, 17 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>190</itunes:duration>
+    <itunes:episode>8</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 7: Multi-leader replication</title>
+    <description>Multi-leader replication: several nodes accept writes for low-latency multi-region and offline use, at the cost of resolving write conflicts.</description>
+    <itunes:summary>Multi-leader replication: several nodes accept writes for low-latency multi-region and offline use, at the cost of resolving write conflicts.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-16-multi-leader-replication.mp3" length="1543841" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-16-multi-leader-replication</guid>
+    <pubDate>Fri, 16 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>193</itunes:duration>
+    <itunes:episode>7</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 6: Leader–Follower replication</title>
+    <description>Leader–follower replication: one writer, followers copy the log, lag and failover trade-offs.</description>
+    <itunes:summary>Leader–follower replication: one writer, followers copy the log, lag and failover trade-offs.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-15-leader-follower-replication.mp3" length="1369134" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-15-leader-follower-replication</guid>
+    <pubDate>Thu, 15 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>171</itunes:duration>
+    <itunes:episode>6</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 5: Read replicas</title>
+    <description>Read replicas: scale SELECTs off the primary, and live with replication lag.</description>
+    <itunes:summary>Read replicas: scale SELECTs off the primary, and live with replication lag.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-14-read-replicas.mp3" length="1345101" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-14-read-replicas</guid>
+    <pubDate>Wed, 14 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>168</itunes:duration>
+    <itunes:episode>5</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 4: Normalization</title>
+    <description>Store each fact once: normal forms one through three, an orders and customers example, and the join-cost trade-off.</description>
+    <itunes:summary>Store each fact once: normal forms one through three, an orders and customers example, and the join-cost trade-off.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-13-normalization.mp3" length="1407982" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-13-normalization</guid>
+    <pubDate>Tue, 13 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>176</itunes:duration>
+    <itunes:episode>4</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+</channel>
+</rss>

@@ -1,0 +1,19 @@
+Hey, welcome to Eventually Consistent. This is day 7 of 77, and today we're talking about multi-leader replication.
+
+Yesterday we looked at leader follower replication, where one database node takes every write and the followers just copy it. Multi-leader replication breaks that rule. Instead of one leader, you have two or more nodes that can all accept writes. Each leader applies the write locally, then ships the change to the other leaders in the background. So every leader is also a follower of every other leader.
+
+Why would you want that? Mostly because of distance and availability. Picture an app with users in New York and in Frankfurt. With a single leader in Virginia, every write from Europe has to cross the Atlantic before it counts. That's slow, and if the link between regions goes down, Europe can't write at all. Put a leader in each region instead, and European users write to the nearby leader with low latency. The regions sync with each other asynchronously, and if one data center goes offline, the other keeps taking writes.
+
+The same idea shows up in places you might not expect. An offline-first app, like a notes app on your phone, is basically multi-leader replication. Your phone is a leader while you're on a plane. Your laptop is another leader. When they reconnect, they sync. Collaborative editors like Google Docs work on a similar principle, with every person's browser making local edits that get merged.
+
+For a real database example, think of Postgres with an extension like pg logical or E D B's bi-directional replication, or MySQL in a Galera or group replication setup, or Couch D B, which was built around this model from the start. Teams use these to run active active across regions.
+
+Now, the big trade-off. And it's a big one: write conflicts. With a single leader, two updates to the same row get put in order by that one node. With multiple leaders, two people can change the same record at the same moment in different regions. Say one user in New York renames a document to "Plan A" while someone in Frankfurt renames it to "Plan B." Both leaders say yes. Then they sync, and now the system has to decide who wins.
+
+There are a few ways to handle it. Last write wins picks whichever change has the later timestamp. It's simple, but it quietly throws data away, and clocks across machines are never perfectly in sync. You can merge the values, like keeping both titles or using special data types called conflict-free replicated data types, or C R D Ts, that are designed to merge cleanly. Or you can store both versions and let the application or the user sort it out later. Each option pushes complexity somewhere, and none of them is free.
+
+There are other costs too. Features like unique constraints, auto-incrementing I Ds, and foreign keys get much harder when two leaders can each approve something the other would have rejected. And the topology matters. In a ring or star layout, one broken node can stop changes from flowing to the others.
+
+So here's the rule of thumb. If you can live with one leader, do that, because it's much easier to reason about. Reach for multi-leader replication when you truly need low-latency writes in several regions, or devices that keep working offline, and go in with a clear plan for conflicts.
+
+That's it for today. See you tomorrow, eventually.

@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 6 of 77, and today we're talking about Leader–Follower replication.
+
+If you have used a managed Postgres or MySQL database, you have almost certainly lived inside this pattern, even if nobody named it for you. Leader–follower replication—also called primary–replica, or historically master–slave—means one node takes every write, and everyone else copies from it.
+
+Here is the shape. Clients send inserts, updates, and deletes only to the leader. That leader records the change in its write-ahead log, or WAL, and ships those log records to one or more followers. Each follower applies the same changes in the same order, so its data converges toward the leader's. Followers can answer read queries, or they can sit quiet as hot standbys ready for failover. What they usually do not do is accept independent writes of their own.
+
+Why build systems this way? Because a single writer keeps conflict resolution almost trivial. There is one ordered stream of commits. You do not have to merge two regions that both updated the same shopping cart at the same time. That clarity maps cleanly onto A C I D transactions and the way most relational databases think about a primary. Followers still buy you something valuable: more read capacity, and a spare machine you can promote if the leader dies.
+
+Picture an online store. Orders and inventory updates hit the primary Postgres instance. Product catalog browsing and overnight reports go to streaming standbys that replay the WAL. If the primary fails, orchestration promotes a standby and redirects writes. MySQL replication, SQL Server Always On, Amazon R D S, and Google Cloud S Q L all follow variations of this same idea.
+
+The main trade-off is the price of that simplicity. The leader is both a throughput bottleneck and a single point of failure until failover completes. Followers almost always lag by some amount—milliseconds when healthy, seconds or worse under load—so a read-your-writes check against a follower can miss the update you just made. Failover itself is not free either. There is a window where writes pause, and you need fencing so the old leader cannot wake up and diverge from the new one.
+
+You will often hear this pattern next to yesterday's topic, read replicas. Read replicas are usually the followers in a leader–follower setup, specialized for scale-out reads. Multi-leader and quorum designs exist when you need write availability across regions, but they trade away the "one writer, one truth" story you get here.
+
+So when someone says their database uses leader–follower replication, translate it as: one place accepts writes, others copy the log, reads may be a little stale, and failover is a planned ceremony rather than magic. That single-writer discipline is why so many production systems still start here—and why the hard problems show up at the edges: lag, promotion, and making sure the old leader stays gone.
+
+That's it for today. See you tomorrow, eventually.

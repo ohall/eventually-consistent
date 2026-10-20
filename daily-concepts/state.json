@@ -1,0 +1,149 @@
+{
+  "concepts": [
+    "Indexing",
+    "Clustering",
+    "Denormalization",
+    "Normalization",
+    "Read replicas",
+    "Leader–Follower replication",
+    "Multi-leader replication",
+    "Quorum",
+    "Consensus",
+    "CAP theorem",
+    "BASE",
+    "ACID",
+    "Eventual consistency",
+    "Strong consistency",
+    "Snapshot isolation",
+    "MVCC (Multi-Version Concurrency Control)",
+    "Two-phase commit (2PC)",
+    "Three-phase commit (3PC)",
+    "Write-ahead logging (WAL)",
+    "Checkpointing",
+    "Compaction",
+    "Rebalancing",
+    "Resharding",
+    "Data locality",
+    "Hot partition",
+    "Split-brain",
+    "Failover",
+    "High availability (HA)",
+    "Horizontal scaling",
+    "Vertical scaling",
+    "Load balancing",
+    "Connection pooling",
+    "Caching",
+    "Materialized views",
+    "Secondary indexes",
+    "Composite index",
+    "Covering index",
+    "Bloom filter",
+    "LSM tree",
+    "B-tree",
+    "Query planner",
+    "Cost-based optimizer",
+    "Deadlock",
+    "Lock escalation",
+    "Optimistic locking",
+    "Pessimistic locking",
+    "Dirty read",
+    "Phantom read",
+    "Read skew",
+    "Write skew",
+    "Data skew",
+    "Backpressure",
+    "Circuit breaker",
+    "Throttling",
+    "Rate limiting",
+    "CDC (Change Data Capture)",
+    "Logical replication",
+    "Physical replication",
+    "Geo-replication",
+    "Federation",
+    "Data lake",
+    "Data warehouse",
+    "Columnar storage",
+    "Row-based storage",
+    "Time-series partitioning",
+    "Hash partitioning",
+    "Range partitioning",
+    "Consistent hashing",
+    "Data migration",
+    "Schema evolution",
+    "Schema registry",
+    "Idempotency",
+    "p99 latency (and why averages lie)",
+    "Reading query plans (EXPLAIN ANALYZE)",
+    "Write amplification",
+    "Outbox pattern",
+    "Tail latency amplification"
+  ],
+  "next": 10,
+  "round": 1,
+  "history": [
+    {
+      "date": "2026-10-10",
+      "concept": "Indexing",
+      "round": 1,
+      "angle": "core explainer: what, why, Postgres B-tree example, write/storage trade-off"
+    },
+    {
+      "date": "2026-10-11",
+      "concept": "Clustering",
+      "round": 1,
+      "angle": "core explainer: physical row ordering / clustered index, InnoDB PK vs Postgres CLUSTER, write cost trade-off"
+    },
+    {
+      "date": "2026-10-12",
+      "concept": "Denormalization",
+      "round": 1,
+      "angle": "core explainer: duplicating data to avoid joins, Postgres order_items/Cassandra query-first tables, write-amplification and drift trade-off"
+    },
+    {
+      "date": "2026-10-13",
+      "concept": "Normalization",
+      "round": 1,
+      "angle": "core explainer: one fact in one place, 1NF/2NF/3NF via orders/customers in Postgres, join cost vs update anomalies trade-off"
+    },
+    {
+      "date": "2026-10-14",
+      "concept": "Read replicas",
+      "round": 1,
+      "angle": "core explainer: primary vs read replicas, Postgres streaming e-commerce split, replication-lag trade-off"
+    },
+    {
+      "date": "2026-10-15",
+      "concept": "Leader–Follower replication",
+      "round": 1,
+      "angle": "core explainer: primary accepts writes, followers replicate WAL/binlog, e-commerce + Postgres streaming, leader bottleneck and lag trade-off"
+    },
+    {
+      "date": "2026-10-16",
+      "concept": "Multi-leader replication",
+      "round": 1,
+      "angle": "core explainer: several leaders accept writes and sync each other, multi-region / offline-first (Google Docs, CouchDB), BDR/Galera-style setups, write-conflict resolution trade-off"
+    },
+    {
+      "date": "2026-10-17",
+      "concept": "Quorum",
+      "round": 1,
+      "angle": "core explainer: N/W/R and R+W>N overlap, Cassandra/Dynamo N=3 QUORUM with read repair, Raft/Paxos majorities, latency/availability vs consistency trade-off and sloppy-quorum caveat"
+    },
+    {
+      "date": "2026-10-18",
+      "concept": "Consensus",
+      "round": 1,
+      "angle": "core explainer: nodes agreeing on one value/log order despite crashes, Raft leader election + majority-committed log, etcd behind Kubernetes, availability/latency trade-off (minority side stalls, FLP caveat)"
+    },
+    {
+      "date": "2026-10-19",
+      "concept": "CAP theorem",
+      "round": 1,
+      "angle": "core explainer: during a network partition choose consistency or availability, CP (etcd/ZooKeeper, minority refuses writes) vs AP (Cassandra/DynamoDB, keep serving and reconcile), shopping-cart example, PACELC latency-vs-consistency caveat"
+    }
+  ],
+  "sources": [
+    "https://x.com/SumitM_X/status/2108565720615522746",
+    "https://x.com/system_monarch/status/2109549882763514209"
+  ]
+}

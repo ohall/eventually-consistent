@@ -1,0 +1,21 @@
+Hey, welcome to Eventually Consistent. This is day 8 of 77, and today we're talking about quorum.
+
+So here's the setup. You've copied your data onto several machines, maybe three, maybe five. That's great for surviving failures, but it raises an awkward question. When you write something, how many of those copies have to say "got it" before you tell the user it worked? And when you read, how many copies do you have to ask before you trust the answer?
+
+That number is the quorum. It's the minimum number of replicas that have to agree before a read or a write counts as done.
+
+The classic way to think about it uses three letters. N is how many copies of the data you keep. W is how many replicas must confirm a write. And R is how many replicas you ask on a read. The magic rule is this: if R plus W is bigger than N, then every group of nodes you read from overlaps every group you wrote to by at least one node. Which means any read is guaranteed to touch at least one replica that saw the latest successful write.
+
+Why bother with all this? Well, think about the two extremes. You could wait for every single replica on every write. That's safe, but it's slow, because you're always waiting on the slowest machine, and if just one node is down, nothing can be written at all. Or you could trust a single replica. That's fast, but that one replica might be behind, or it might crash right after saying yes, and your write is gone. Quorums sit in the middle. You can lose some machines and still get a real guarantee.
+
+Let's make it concrete. Databases like Cassandra, and stores inspired by Amazon's Dynamo, often run with three replicas and use quorum reads and writes. So N is three, W is two, and R is two. A write succeeds once two of the three replicas confirm it. A read asks two replicas. And since two plus two is four, which is more than three, at least one of those replicas has the newest value. The database compares timestamps, returns the newest one, and quietly fixes the stale replica in the background. That's called read repair. And notice, one node can be completely down and both reads and writes keep working.
+
+Consensus systems like Raft and Paxos lean on the same idea, using a simple majority. Three out of five nodes have to agree to elect a leader or commit an entry to the log. Because two majorities always overlap, you can never end up with two leaders both thinking they're in charge. No split brain.
+
+Now the trade-off. It's latency and availability versus consistency. Make your quorums bigger, say W equals N, and you get stronger guarantees, but every request waits on the slowest node and you tolerate fewer failures. Make them smaller, like W equals one and R equals one, and things get fast and very available, but reads can come back stale.
+
+And one honest caveat. Even when R plus W is bigger than N, you don't automatically get perfect consistency. Sloppy quorums during network trouble, two writes racing each other, or clocks deciding "last write wins" can still surprise you. Quorum gives you overlap, not magic.
+
+Tomorrow we'll build on this with consensus, which is how a group of machines actually agrees on one answer.
+
+That's it for today. See you tomorrow, eventually.

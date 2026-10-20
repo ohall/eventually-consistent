@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 9 of 77, and today we're talking about consensus.
+
+Yesterday we talked about quorums, the idea that if enough nodes agree on a read or a write, you can trust the answer. Consensus takes that one step further. It's how a group of machines agrees on a single value, or a single order of events, even when some of those machines crash, restart, or just go quiet for a while. And once they've agreed, nobody gets to change their mind.
+
+So why does this exist? Picture three servers holding copies of the same data. If each one decides on its own who the leader is, or which write came first, you end up with two leaders, or two different histories. That's called split brain, and it's how you lose data or charge someone twice. Consensus protocols make sure there's exactly one agreed answer, as long as a majority of the machines can still talk to each other.
+
+The two big names here are Paxos and Raft. Paxos came first and is famously hard to understand. Raft was designed specifically to be easier to reason about, so let's walk through it.
+
+In Raft, the nodes elect a leader. Every client write goes to that leader, which appends it to its log and sends it to the followers. Once a majority of nodes, say two out of three, or three out of five, have written that entry down, the leader marks it as committed and applies it. If the leader dies, the followers notice the missing heartbeats, one of them starts an election, and it only wins if a majority votes for it. Each election bumps a term number, so an old leader that wakes up from a long pause sees the higher term and steps down instead of causing trouble.
+
+Here's a real example you've almost certainly touched. Kubernetes stores all of its cluster state in etcd, and etcd uses Raft. When you run kubectl apply, that change only counts once a majority of etcd members have it. Lose one node out of three and the cluster keeps working. Lose two and etcd refuses writes rather than risk two versions of the truth. ZooKeeper, Consul, and CockroachDB all lean on the same kind of idea, and so does Kafka's newer controller mode, called K Raft.
+
+Now the trade-off. Consensus buys you correctness, and you pay for it in availability and latency. Every write needs a round trip to a majority, so spreading nodes across continents makes every write slower. During a network partition, the side without a majority simply stops accepting writes. That's the system choosing consistency over availability, which is exactly what tomorrow's topic, the CAP theorem, is all about. There's also a classic result called F L P which says no algorithm can guarantee agreement in a fully asynchronous network if even one node can fail. Real systems get around that with timeouts, which is why tuning election timeouts actually matters.
+
+A good rule of thumb is to keep consensus small. Use it for the critical stuff, like leader election, configuration, locks, and metadata, and keep your high volume data paths out of it.
+
+That's it for today. See you tomorrow, eventually.

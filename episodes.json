@@ -1,0 +1,79 @@
+[
+ {
+  "date": "2026-10-13",
+  "day": 4,
+  "title": "Day 4: Normalization",
+  "file": "2026-10-13-normalization.mp3",
+  "bytes": 1407982,
+  "duration": 176,
+  "guid": "tech-bites-2026-10-13-normalization",
+  "pubDate": "Tue, 13 Oct 2026 08:30:00 -0400",
+  "summary": "Store each fact once: normal forms one through three, an orders and customers example, and the join-cost trade-off."
+ },
+ {
+  "date": "2026-10-14",
+  "day": 5,
+  "title": "Day 5: Read replicas",
+  "file": "2026-10-14-read-replicas.mp3",
+  "bytes": 1345101,
+  "duration": 168,
+  "guid": "tech-bites-2026-10-14-read-replicas",
+  "pubDate": "Wed, 14 Oct 2026 08:30:00 -0400",
+  "summary": "Read replicas: scale SELECTs off the primary, and live with replication lag."
+ },
+ {
+  "date": "2026-10-15",
+  "day": 6,
+  "title": "Day 6: Leader\u2013Follower replication",
+  "file": "2026-10-15-leader-follower-replication.mp3",
+  "bytes": 1369134,
+  "duration": 171,
+  "guid": "tech-bites-2026-10-15-leader-follower-replication",
+  "pubDate": "Thu, 15 Oct 2026 08:30:00 -0400",
+  "summary": "Leader\u2013follower replication: one writer, followers copy the log, lag and failover trade-offs."
+ },
+ {
+  "date": "2026-10-16",
+  "day": 7,
+  "title": "Day 7: Multi-leader replication",
+  "file": "2026-10-16-multi-leader-replication.mp3",
+  "bytes": 1543841,
+  "duration": 193,
+  "guid": "tech-bites-2026-10-16-multi-leader-replication",
+  "pubDate": "Fri, 16 Oct 2026 08:30:00 -0400",
+  "summary": "Multi-leader replication: several nodes accept writes for low-latency multi-region and offline use, at the cost of resolving write conflicts."
+ },
+ {
+  "date": "2026-10-17",
+  "day": 8,
+  "title": "Day 8: Quorum",
+  "file": "2026-10-17-quorum.mp3",
+  "bytes": 1522316,
+  "duration": 190,
+  "guid": "tech-bites-2026-10-17-quorum",
+  "pubDate": "Sat, 17 Oct 2026 08:30:00 -0400",
+  "summary": "Quorums: how R plus W greater than N lets replicated databases tolerate failures and still read recent writes."
+ },
+ {
+  "date": "2026-10-18",
+  "day": 9,
+  "title": "Day 9: Consensus",
+  "file": "2026-10-18-consensus.mp3",
+  "bytes": 1406123,
+  "duration": 176,
+  "guid": "tech-bites-2026-10-18-consensus",
+  "pubDate": "Sun, 18 Oct 2026 08:30:00 -0400",
+  "summary": "How Raft and Paxos get a cluster to agree on one answer, why etcd stops writes without a majority, and what that costs."
+ },
+ {
+  "date": "2026-10-19",
+  "day": 10,
+  "title": "Day 10: CAP theorem",
+  "file": "2026-10-19-cap-theorem.mp3",
+  "bytes": 1581666,
+  "duration": 198,
+  "guid": "tech-bites-2026-10-19-cap-theorem",
+  "pubDate": "Mon, 19 Oct 2026 08:30:00 -0400",
+  "summary": "CAP theorem: when the network splits, you choose consistency or availability, and PACELC adds latency to the everyday picture."
+ }
+]

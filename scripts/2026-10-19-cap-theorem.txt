@@ -1,0 +1,23 @@
+Hey, welcome to Eventually Consistent. This is day 10 of 77, and today we're talking about the CAP theorem.
+
+Yesterday we talked about consensus, and how a group of machines agrees on one answer. Today is the rule that explains why that agreement sometimes has to cost you something.
+
+So, what is it? CAP stands for three properties. C is consistency, meaning every read sees the latest write, as if there were only one copy of the data. A is availability, meaning every request to a working node gets an answer, not an error or a timeout. And P is partition tolerance, meaning the system keeps running even when the network between nodes breaks and messages get lost.
+
+The famous version says you can pick two out of three. But that's a little misleading. In a real distributed system, network partitions are not optional. Cables get cut, switches fail, a whole data center drops off the map. So partition tolerance isn't a choice, it's a fact of life. The real question is this: when the network splits, do you stay consistent or do you stay available? You can't have both at that moment.
+
+Why does this idea exist? Back around the year 2000, Eric Brewer put it forward as a conjecture, and a couple of years later Seth Gilbert and Nancy Lynch proved it formally. It gave engineers a shared vocabulary for a trade-off they kept running into. Instead of promising everything, a database could say plainly what it gives up when things go wrong.
+
+Let's make it concrete. Picture an online store running in two regions, east and west, and the link between them goes down. A customer in the west adds a laptop to their cart.
+
+If the system chooses consistency, the west side says, I can't reach the other region, so I can't be sure my data is current, and I'll refuse this write or return an error. Nobody ever sees stale or conflicting data, but some users get turned away. That's how systems like etcd and ZooKeeper behave. The side of the split that doesn't have a majority simply stops accepting writes.
+
+If the system chooses availability, the west side says, sure, added to your cart, and keeps going. Meanwhile the east side might be accepting its own changes to the same cart. When the network heals, the two sides have to reconcile, maybe by merging the carts, maybe by keeping the most recent write. That's the Amazon Dynamo approach, and it's how Cassandra and DynamoDB lean by default. The famous side effect is that an item you deleted can sometimes reappear in your cart.
+
+Now the trade-off. Choosing consistency means correctness, but it also means errors and downtime during a partition. That's the right call for bank balances, inventory counts, or leader election. Choosing availability means the app stays up, but you have to live with stale reads and write conflicts, and somebody has to write the merge logic. That's fine for shopping carts, social feeds, and like counts.
+
+One more thing worth knowing. Partitions are rare, so a follow-up idea called PACELC adds the everyday case. If there's a Partition, pick Availability or Consistency. Else, when things are normal, pick Latency or Consistency. Even on a healthy network, waiting for replicas to agree makes every request slower. That's the trade-off you actually pay most days.
+
+So, if someone asks you about CAP in an interview, don't just say pick two. Say partitions will happen, and then explain what your system does when they do.
+
+That's it for today. See you tomorrow, eventually.

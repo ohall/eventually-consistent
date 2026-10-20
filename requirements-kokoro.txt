@@ -1,0 +1,4 @@
+# Kokoro venv (.venv-kokoro, Python 3.11): only needed to regenerate voices/ref_af_heart.wav
+kokoro==0.9.4
+soundfile==0.14.0
+numpy
