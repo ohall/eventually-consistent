@@ -78,7 +78,7 @@
     "Outbox pattern",
     "Tail latency amplification"
   ],
-  "next": 10,
+  "next": 11,
   "round": 1,
   "history": [
     {
@@ -140,6 +140,12 @@
       "concept": "CAP theorem",
       "round": 1,
       "angle": "core explainer: during a network partition choose consistency or availability, CP (etcd/ZooKeeper, minority refuses writes) vs AP (Cassandra/DynamoDB, keep serving and reconcile), shopping-cart example, PACELC latency-vs-consistency caveat"
+    },
+    {
+      "date": "2026-10-20",
+      "concept": "BASE",
+      "round": 1,
+      "angle": "core explainer: Basically Available / Soft state / Eventually consistent as the opposite of ACID, CAP-driven motivation (coordination costs latency and stalls under partition), DynamoDB eventually consistent reads (strong reads cost 2x RCU) and like-counter example, trade-off of availability/scale vs app-level stale reads, conflict resolution and hard invariants"
     }
   ],
   "sources": [

@@ -75,5 +75,16 @@
   "guid": "tech-bites-2026-10-19-cap-theorem",
   "pubDate": "Mon, 19 Oct 2026 08:30:00 -0400",
   "summary": "CAP theorem: when the network splits, you choose consistency or availability, and PACELC adds latency to the everyday picture."
+ },
+ {
+  "date": "2026-10-20",
+  "day": 11,
+  "title": "Day 11: BASE",
+  "file": "2026-10-20-base.mp3",
+  "bytes": 1514166,
+  "duration": 189,
+  "guid": "tech-bites-2026-10-20-base",
+  "pubDate": "Tue, 20 Oct 2026 08:30:00 -0400",
+  "summary": "BASE: Basically Available, Soft state, Eventually consistent, the availability-first alternative to ACID and what it costs your app."
  }
 ]

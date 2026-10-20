@@ -14,7 +14,19 @@
   <itunes:category text="Technology"/>
   <itunes:explicit>false</itunes:explicit>
   <itunes:type>episodic</itunes:type>
-  <lastBuildDate>Mon, 19 Oct 2026 12:38:12 +0000</lastBuildDate>
+  <lastBuildDate>Tue, 20 Oct 2026 12:41:24 +0000</lastBuildDate>
+  <item>
+    <title>Day 11: BASE</title>
+    <description>BASE: Basically Available, Soft state, Eventually consistent, the availability-first alternative to ACID and what it costs your app.</description>
+    <itunes:summary>BASE: Basically Available, Soft state, Eventually consistent, the availability-first alternative to ACID and what it costs your app.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-20-base.mp3" length="1514166" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-20-base</guid>
+    <pubDate>Tue, 20 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>189</itunes:duration>
+    <itunes:episode>11</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
   <item>
     <title>Day 10: CAP theorem</title>
     <description>CAP theorem: when the network splits, you choose consistency or availability, and PACELC adds latency to the everyday picture.</description>
