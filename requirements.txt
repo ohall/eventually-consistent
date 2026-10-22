@@ -1,3 +1,3 @@
 # Main venv (.venv, Python 3.13): episode build, feed, cover art, Piper fallback
 piper-tts==1.8.0
-pillow==12.3.0
+pillow==13.0.0
