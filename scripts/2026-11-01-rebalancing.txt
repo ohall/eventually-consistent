@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 22 of 77, and today we're talking about Rebalancing.
+
+Yesterday we talked about compaction, which is how a single storage engine tidies up its own files. Today we zoom out to the whole cluster. Rebalancing is the process of moving data, and the work that comes with it, from one machine to another, so that every node carries a fair share of the load.
+
+Why does it exist? Because clusters never stay still. You add a node because you're running out of disk. A node dies and its data has to live somewhere else. Or one machine ends up holding the hot customers and starts to melt while its neighbors sit idle. In every one of those cases, the mapping from keys to machines has to change, and rebalancing is the act of changing it while the system keeps serving traffic.
+
+The naive way to spread keys is to hash the key and take the result modulo the number of nodes. That works great right up until the number of nodes changes. Go from ten nodes to eleven, and almost every key suddenly maps to a different machine. You'd be shipping nearly your entire dataset across the network just to add one box. So real systems avoid that.
+
+One common approach is to create many more partitions than you have nodes, say a thousand partitions on ten machines, and keep those partitions fixed forever. When a new node joins, it simply steals a few whole partitions from each existing node. Elasticsearch shards, Riak, and Couchbase all work roughly like this. Another approach is consistent hashing, where keys and nodes sit on a ring, and adding a node only takes over a small slice of that ring. Cassandra uses this with virtual nodes, so each physical machine owns many small slices and the load spreads out more evenly.
+
+Rebalancing isn't only about stored data, either. In Kafka, when a consumer joins or leaves a consumer group, the group rebalances which consumer reads which partition. In older versions, that meant every consumer stopped processing until the new assignment was agreed on, a stop the world pause. Newer cooperative rebalancing moves only the partitions that actually need to move, so everybody else keeps working.
+
+Here's the failure story people learn the hard way. Imagine automatic rebalancing is turned on, and a node has a brief network blip. The cluster decides the node is dead and starts copying its data to the survivors. That copying eats disk and network bandwidth on machines that were already busy, so they slow down, miss their own health checks, and get declared dead too. Now there's even more data to move. One small hiccup turns into a cascading outage. That's why many teams add a delay before rebalancing kicks in, throttle how fast data can move, or require a human to approve big moves.
+
+So the main trade-off is this. You want load spread evenly, and you want the cluster to heal itself. But every rebalance costs real network and disk bandwidth, and it happens at the worst possible moment, when something has already changed or gone wrong. Rebalance too eagerly and you amplify failures. Rebalance too cautiously and you live with hot spots and lopsided disks. The good designs minimize how much data has to move, and give you knobs for when and how fast it moves.
+
+That's it for today. See you tomorrow, eventually.

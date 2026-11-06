@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 25 of 77, and today we're talking about Hot partition.
+
+Imagine you carefully split your data across many shards so each machine gets a fair share of the work. Then one shard starts melting. Latency spikes, CPU pegs, queues pile up, and the rest of the cluster looks almost idle. That overloaded shard is a hot partition.
+
+A hot partition is a single shard, partition, or node that receives a disproportionate share of traffic or data compared with its peers. Systems often assume a hash of the key will spread load evenly. Reality disagrees whenever access is skewed. A few keys get hit constantly. Those are sometimes called celebrity keys. A social network's most famous account, a flash sale product I D, a popular tenant in a multi tenant database, or a Kafka topic keyed by a trending hashtag can all dump almost every request onto one partition while the others coast.
+
+Why does this happen? Hash ranges can be uneven, especially early on or after a bad rebalance. More often the keys themselves are skewed. Power law traffic is normal on the internet. One percent of keys can drive most of the reads and writes. Even with a perfect hash, if your partition key is user underscore I D and one user is a celebrity, every like, comment, and feed refresh for that user lands on the same shard. Range partitions have the same problem when a hot time window or a popular prefix sits inside one range.
+
+A concrete example. Suppose a messaging service shards conversations by the author's user I D. Most users send a handful of messages. Then a celebrity posts, and millions of fans reply in minutes. That author's partition suddenly owns a huge write burst and every fan's timeline reads may also fan into related hot keys. Or think of Kafka: you choose thirty two partitions and key events by product I D. One viral product produces ninety percent of the events. One partition's consumer lags; the others finish early and wait. Throughput for the whole topic is gated by the hottest partition.
+
+How do systems cope? You can raise the shard count so each key owns a smaller slice, but a single celebrity key still pins to one shard. You can re key: salt the hot key with a random suffix, shard by a composite like user I D plus a bucket, or route celebrities to dedicated partitions. Some databases split hot ranges automatically. You can buffer and batch writes, cache aggressively in front of the hot shard, or apply backpressure so the rest of the system does not tip over. Kafka consumers sometimes use sticky assignors and increase parallelism, but the fundamental limit remains one partition, one ordered stream.
+
+The main trade off is fairness versus complexity. Even shard counts and careful key design reduce the odds of a hotspot, yet they add operational work: salting breaks efficient range scans and ordered reads; dedicated celebrity shards need special routing; automatic splits and rebalances move data under load and can create new hotspots while they run. Caching and buffers hide the heat until they miss or fill. You rarely eliminate hot partitions entirely. You detect them early with per partition metrics, design keys with headroom, and accept that a few keys will always need special treatment.
+
+So when one shard takes all the heat, look at your keys before you blame the cluster size. Skew is usually a modeling problem wearing a capacity costume.
+
+That's it for today. See you tomorrow, eventually.

@@ -1,0 +1,19 @@
+Hey, welcome to Eventually Consistent. This is day 15 of 77, and today we're talking about snapshot isolation.
+
+Picture this. You start a big report that reads every account in your bank's database. It takes a whole minute. Meanwhile, hundreds of transfers are landing. If your report sees some accounts before a transfer and others after it, the totals won't add up. Money appears out of thin air, or vanishes. Snapshot isolation is the fix for exactly that.
+
+So what is it? Under snapshot isolation, every transaction reads from a frozen picture of the database, taken at the moment it started. Other people can keep committing changes, but you don't see them. Your view stays perfectly consistent until you finish. When you go to write, the database checks whether anyone else already changed the same rows since your snapshot. If they did, one of you loses and has to retry. That rule is called first committer wins.
+
+Why does it exist? The older way to get consistent reads was locking. Readers lock rows, writers wait, and a long report can freeze the whole system. Snapshot isolation sidesteps that with something called multi version concurrency control, or M V C C for short. Instead of overwriting a row, the database keeps old versions around, stamped with transaction identifiers. Each reader just picks the version that was current when its snapshot was taken. The big win is that readers never block writers, and writers never block readers.
+
+Here's a real example. In Postgres, the repeatable read isolation level is snapshot isolation. That's how the backup tool, pg dump, can take a consistent backup of a busy, live database without stopping traffic. It opens one snapshot and reads everything from it, even though writes keep flowing the entire time. Oracle, SQL Server, and MySQL's InnoDB engine all lean on the same multi version trick.
+
+Now, the trade off, and it's a sneaky one. Snapshot isolation is not the same as fully serializable. The classic bug is called write skew. Imagine a hospital rule: at least one doctor must be on call. Two doctors are on call, and both decide to go off shift at the same moment. Each transaction checks its snapshot, sees that the other doctor is still on call, and removes itself. They update different rows, so there's no write conflict, and both commit. Now nobody is on call. Every individual check was correct, but the combined result breaks the rule.
+
+The fixes are either to lock the rows you read, using select for update, or to turn on true serializable isolation. Postgres offers serializable snapshot isolation, which watches for these dangerous read and write patterns and aborts one transaction. You pay in more retries. There's also a storage cost. All those old row versions pile up, and something has to clean them out. In Postgres that's vacuum, and a single long running transaction can hold back cleanup and bloat your tables.
+
+How does this connect to yesterday? Strong consistency was about every read seeing the latest write. Snapshot isolation deliberately gives you a slightly older, but internally consistent, view, and that's usually a great deal for reads.
+
+The takeaway: snapshot isolation gives you consistent reads without locking, but watch out for write skew whenever a decision depends on rows you didn't write.
+
+That's it for today. See you tomorrow, eventually.

@@ -1,0 +1,15 @@
+Hey, welcome to Eventually Consistent. This is day 13 of 77, and today we're talking about eventual consistency. Yes, the concept this show is named after. It only took us thirteen days to get here, which feels about right.
+
+So what is it? Eventual consistency is a promise a distributed system makes about copies of your data. When you write something, not every copy gets updated at the same instant. For a little while, different replicas might give different answers. But if the writes stop, all the copies will converge on the same value. Eventually. The promise is about where things end up, not about when.
+
+Why would anyone accept that? Because the alternative is expensive. Keeping every replica in lockstep means every write has to wait for the other copies to agree before you say "done." That costs latency, especially when replicas sit in different regions. And remember the CAP theorem from a few days ago. When the network splits, a strongly consistent system has to refuse some requests. An eventually consistent one keeps answering and sorts out the differences later. For a lot of products, staying up beats being perfectly fresh.
+
+Here's a real example. Think about the D N S, the domain name system. When you change where your website points, that change doesn't hit every resolver on the internet at once. Caches hold the old answer until their time to live runs out. For a while, some people see the old server and some see the new one. Then it settles. That's eventual consistency running the whole internet. Or think about a social feed. You post a photo, and your friend in another country doesn't see it for a second or two because their nearest data center hasn't caught up yet. Nobody gets hurt.
+
+Now, the main trade-off. You get speed and availability, but you hand complexity to the application. Your code has to cope with stale reads. A user might update their profile, refresh, and see the old version, which feels like a bug even though the system is doing exactly what it promised. Teams patch that with tricks like read your own writes, where you route a user's reads to the copy that took their write. Then there are conflicts. If two replicas accept different writes to the same record during a partition, someone has to decide who wins. Last writer wins is simple, but it can quietly throw data away. Smarter approaches, like conflict free replicated data types, merge changes automatically, but only for certain kinds of data, like counters and sets.
+
+And some things just shouldn't be eventually consistent. A bank balance, the last seat on a flight, a unique username. When an invariant has to hold at every moment, you want the stronger guarantees we talked about yesterday with A C I D.
+
+So here's the rule of thumb. Ask yourself what happens if a user sees data that's a few seconds old. If the honest answer is "nothing much," eventual consistency is probably a great deal. If the answer is "we double sell something" or "money disappears," pay for strong consistency on that part of the system.
+
+That's it for today. See you tomorrow, eventually.

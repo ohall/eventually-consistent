@@ -5,7 +5,7 @@
     "Denormalization",
     "Normalization",
     "Read replicas",
-    "Leader–Follower replication",
+    "Leader\u2013Follower replication",
     "Multi-leader replication",
     "Quorum",
     "Consensus",
@@ -78,7 +78,7 @@
     "Outbox pattern",
     "Tail latency amplification"
   ],
-  "next": 11,
+  "next": 25,
   "round": 1,
   "history": [
     {
@@ -113,7 +113,7 @@
     },
     {
       "date": "2026-10-15",
-      "concept": "Leader–Follower replication",
+      "concept": "Leader\u2013Follower replication",
       "round": 1,
       "angle": "core explainer: primary accepts writes, followers replicate WAL/binlog, e-commerce + Postgres streaming, leader bottleneck and lag trade-off"
     },
@@ -146,6 +146,90 @@
       "concept": "BASE",
       "round": 1,
       "angle": "core explainer: Basically Available / Soft state / Eventually consistent as the opposite of ACID, CAP-driven motivation (coordination costs latency and stalls under partition), DynamoDB eventually consistent reads (strong reads cost 2x RCU) and like-counter example, trade-off of availability/scale vs app-level stale reads, conflict resolution and hard invariants"
+    },
+    {
+      "date": "2026-10-21",
+      "concept": "ACID",
+      "round": 1,
+      "angle": "core explainer: Atomicity/Consistency/Isolation/Durability as transaction guarantees, bank transfer in Postgres (BEGIN/COMMIT, WAL + fsync, rollback on crash), why it exists (partial failures and concurrent writers), trade-off of coordination/locking/throughput and isolation levels (Read Committed default, Serializable cost), contrast with yesterday's BASE"
+    },
+    {
+      "date": "2026-10-22",
+      "concept": "Eventual consistency",
+      "round": 1,
+      "angle": "core explainer: replicas converge if writes stop, no promise on when; why (coordination latency, CAP availability under partition); DNS TTL propagation and social feed examples; trade-off of stale reads (read-your-writes fix) and conflict resolution (last-writer-wins vs CRDTs); when not to use (balances, seats, unique usernames), link to ACID"
+    },
+    {
+      "date": "2026-10-23",
+      "concept": "Strong consistency",
+      "round": 1,
+      "angle": "core explainer: every read sees the latest committed write (linearizability), why (correctness for money/locks/unique names), Spanner TrueTime commit-wait and etcd/Raft quorum reads examples, trade-off of latency/availability under partition (CAP CP side), DynamoDB strong reads 2x cost, contrast with yesterday's eventual consistency"
+    },
+    {
+      "date": "2026-10-24",
+      "concept": "Snapshot isolation",
+      "round": 1,
+      "angle": "core explainer: each transaction reads a consistent snapshot as of its start (MVCC row versions), readers don't block writers; why (long reads vs locking); Postgres Repeatable Read / pg_dump consistent backup example, first-committer-wins update conflicts; trade-off of write skew (on-call doctors) and version bloat/VACUUM, SSI fix; contrast with yesterday's strong consistency"
+    },
+    {
+      "date": "2026-10-25",
+      "concept": "MVCC (Multi-Version Concurrency Control)",
+      "round": 1,
+      "angle": "core explainer: writes create new row versions instead of overwriting, readers see the version visible to their snapshot; why (readers never block writers, no read locks); Postgres xmin/xmax tuples + VACUUM vs MySQL InnoDB undo log, long-running transaction holding back cleanup example; trade-off of storage bloat/cleanup cost and write-write conflicts still need locks; builds on yesterday's snapshot isolation"
+    },
+    {
+      "date": "2026-10-26",
+      "concept": "Two-phase commit (2PC)",
+      "round": 1,
+      "angle": "core explainer: coordinator + participants, prepare/vote phase (yes vote is a promise, durable log, locks held) then commit/abort phase; why (atomic action across payments + inventory DBs); XA transactions, Postgres PREPARE TRANSACTION, Spanner/CockroachDB multi-shard commits on Paxos/Raft groups; trade-off: blocking/in-doubt transactions when coordinator crashes, extra round trips, availability multiplies; sagas/outbox as alternatives"
+    },
+    {
+      "date": "2026-10-27",
+      "concept": "Three-phase commit (3PC)",
+      "round": 1,
+      "angle": "core explainer building on 2PC: pre-commit phase splits commit step so participants know everyone voted yes, enabling timeouts and recovery coordinator election (non-blocking); flight+hotel booking example; trade-off: unsafe under network partitions (split-brain commit/abort), extra round trip latency; real systems use 2PC on Paxos/Raft (Spanner, CockroachDB) or sagas"
+    },
+    {
+      "date": "2026-10-29",
+      "concept": "Write-ahead logging (WAL)",
+      "round": 1,
+      "angle": "core explainer: log change durably before modifying data pages; torn pages/scattered writes problem; sequential append fast; checkpoints flush dirty pages lazily; crash recovery replays from last checkpoint (redo/undo); Postgres pg_wal powering streaming replication, PITR, Debezium CDC; SQLite WAL mode, InnoDB redo log; trade-off: double writes (write amplification), fsync latency vs group commit/synchronous_commit off, log growth when checkpoints or replicas lag"
+    },
+    {
+      "date": "2026-10-30",
+      "concept": "Checkpointing",
+      "round": 1,
+      "angle": "core explainer following WAL: flush dirty pages and write checkpoint marker so recovery starts there and old log is recycled; Postgres checkpoint_timeout 5 min / max_wal_size, 'checkpoints occurring too frequently' warning, SQLite WAL auto-checkpoint ~1000 pages; Flink state checkpoints, ML training checkpoints; trade-off: recovery time vs I/O bursts, repeated flushes, full-page writes after checkpoint; checkpoint_completion_target spreads writes"
+    },
+    {
+      "date": "2026-10-31",
+      "concept": "Compaction",
+      "round": 1,
+      "angle": "core explainer following checkpointing: LSM trees (Cassandra, RocksDB, LevelDB, ScyllaDB) flush immutable SSTables; updates pile up versions, deletes write tombstones, reads check many files; compaction merges files keeping newest values and dropping tombstones; size-tiered vs leveled; Cassandra mass-delete tombstone failure story with gc_grace 10 days; trade-off: write vs read vs space amplification, background IO competing with traffic"
+    },
+    {
+      "date": "2026-11-01",
+      "concept": "Rebalancing",
+      "round": 1,
+      "angle": "core explainer following compaction: moving data/partitions between nodes when cluster changes; hash mod N reshuffles almost everything vs consistent hashing and fixed partitions (Riak, Elasticsearch shards, Cassandra vnodes, Kafka consumer group rebalancing stop-the-world); failure story of automatic rebalance during node blip causing cascading load; trade-off: even load vs data movement cost, automatic vs manual/throttled rebalancing"
+    },
+    {
+      "date": "2026-11-02",
+      "concept": "Resharding",
+      "round": 1,
+      "angle": "core explainer following rebalancing: changing the number of shards or the shard key when a cluster outgrows its layout; hot shard / celebrity key, range vs hash shards; online approach of double writes, backfill, verify, cut over reads (Vitess MoveTables/Reshard, DynamoDB adaptive splits, MongoDB resharding since 5.0); failure story of cutover with lagging backfill losing writes; trade-off: capacity and even load vs complex long-running migration, choose shard count with headroom up front"
+    },
+    {
+      "date": "2026-11-05",
+      "concept": "Data locality",
+      "round": 1,
+      "angle": "core explainer: keep data close to code and related rows together (cache/disk/rack/region); why (CPU vs memory vs network costs); e-commerce order+line-items chatty APIs / Kafka user-ID partitions / columnar scan locality; trade-off of duplication/consistency, hot partitions, lost service isolation"
+    },
+    {
+      "date": "2026-11-06",
+      "concept": "Hot partition",
+      "round": 1,
+      "angle": "core explainer: skewed/celebrity keys & uneven hash ranges, social/Kafka examples, even shards/re-keying/buffering vs complexity and remaining hotspots"
     }
   ],
   "sources": [

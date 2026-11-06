@@ -14,7 +14,175 @@
   <itunes:category text="Technology"/>
   <itunes:explicit>false</itunes:explicit>
   <itunes:type>episodic</itunes:type>
-  <lastBuildDate>Tue, 20 Oct 2026 12:41:24 +0000</lastBuildDate>
+  <lastBuildDate>Fri, 06 Nov 2026 13:55:57 +0000</lastBuildDate>
+  <item>
+    <title>Day 25: Hot partition</title>
+    <description>Hot partitions: when one shard takes all the heat and how systems cope</description>
+    <itunes:summary>Hot partitions: when one shard takes all the heat and how systems cope</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-11-06-hot-partition.mp3" length="1648331" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-11-06-hot-partition</guid>
+    <pubDate>Fri, 06 Nov 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>206</itunes:duration>
+    <itunes:episode>25</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 24: Data locality</title>
+    <description>Data locality: keep related data close to the code that uses it, and the latency trade-offs when you don&#x27;t.</description>
+    <itunes:summary>Data locality: keep related data close to the code that uses it, and the latency trade-offs when you don&#x27;t.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-11-05-data-locality.mp3" length="1379583" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-11-05-data-locality</guid>
+    <pubDate>Thu, 05 Nov 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>172</itunes:duration>
+    <itunes:episode>24</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 23: Resharding</title>
+    <description>Resharding: changing shard count or shard key while the system keeps running, how online reshards work, and why cutover is the scary part.</description>
+    <itunes:summary>Resharding: changing shard count or shard key while the system keeps running, how online reshards work, and why cutover is the scary part.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-11-02-resharding.mp3" length="1430574" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-11-02-resharding</guid>
+    <pubDate>Mon, 02 Nov 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>179</itunes:duration>
+    <itunes:episode>23</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 22: Rebalancing</title>
+    <description>How clusters move data between nodes as they grow, shrink, or get lopsided, and why eager rebalancing can turn a blip into an outage.</description>
+    <itunes:summary>How clusters move data between nodes as they grow, shrink, or get lopsided, and why eager rebalancing can turn a blip into an outage.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-11-01-rebalancing.mp3" length="1490342" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-11-01-rebalancing</guid>
+    <pubDate>Sun, 01 Nov 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>186</itunes:duration>
+    <itunes:episode>22</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 21: Compaction</title>
+    <description>How LSM-tree databases merge old files, drop tombstones, and trade write, read, and space costs.</description>
+    <itunes:summary>How LSM-tree databases merge old files, drop tombstones, and trade write, read, and space costs.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-31-compaction.mp3" length="1456905" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-31-compaction</guid>
+    <pubDate>Sat, 31 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>182</itunes:duration>
+    <itunes:episode>21</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 20: Checkpointing</title>
+    <description>Checkpointing: how databases flush dirty pages and mark a safe point in the log so crash recovery stays fast and old log segments can be recycled.</description>
+    <itunes:summary>Checkpointing: how databases flush dirty pages and mark a safe point in the log so crash recovery stays fast and old log segments can be recycled.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-30-checkpointing.mp3" length="1406959" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-30-checkpointing</guid>
+    <pubDate>Fri, 30 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>176</itunes:duration>
+    <itunes:episode>20</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 19: Write-ahead logging (WAL)</title>
+    <description>Write-ahead logging: why databases write changes to an append-only log before touching data, and how that log powers crash recovery, replication and point-in-time restore.</description>
+    <itunes:summary>Write-ahead logging: why databases write changes to an append-only log before touching data, and how that log powers crash recovery, replication and point-in-time restore.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-29-write-ahead-logging-wal.mp3" length="1583547" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-29-write-ahead-logging-wal</guid>
+    <pubDate>Thu, 29 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>198</itunes:duration>
+    <itunes:episode>19</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 18: Three-phase commit (3PC)</title>
+    <description>Three-phase commit adds a pre-commit step to avoid 2PC blocking, but breaks under network partitions.</description>
+    <itunes:summary>Three-phase commit adds a pre-commit step to avoid 2PC blocking, but breaks under network partitions.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-27-three-phase-commit-3pc.mp3" length="1558469" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-27-three-phase-commit-3pc</guid>
+    <pubDate>Tue, 27 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>195</itunes:duration>
+    <itunes:episode>18</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 17: Two-phase commit (2PC)</title>
+    <description>Two-phase commit: how a coordinator gets several databases to vote, then commit or abort together, and why it blocks when the coordinator crashes.</description>
+    <itunes:summary>Two-phase commit: how a coordinator gets several databases to vote, then commit or abort together, and why it blocks when the coordinator crashes.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-26-two-phase-commit-2pc.mp3" length="1645823" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-26-two-phase-commit-2pc</guid>
+    <pubDate>Mon, 26 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>206</itunes:duration>
+    <itunes:episode>17</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 16: MVCC (Multi-Version Concurrency Control)</title>
+    <description>MVCC: how databases keep multiple row versions so readers never block writers, and the cleanup cost that comes with it.</description>
+    <itunes:summary>MVCC: how databases keep multiple row versions so readers never block writers, and the cleanup cost that comes with it.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-25-mvcc-multi-version-concurrency-control.mp3" length="1473206" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-25-mvcc-multi-version-concurrency-control</guid>
+    <pubDate>Sun, 25 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>184</itunes:duration>
+    <itunes:episode>16</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 15: Snapshot isolation</title>
+    <description>Snapshot isolation: consistent reads from a frozen view of the database, and the write skew trap</description>
+    <itunes:summary>Snapshot isolation: consistent reads from a frozen view of the database, and the write skew trap</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-24-snapshot-isolation.mp3" length="1567664" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-24-snapshot-isolation</guid>
+    <pubDate>Sat, 24 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>196</itunes:duration>
+    <itunes:episode>15</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 14: Strong consistency</title>
+    <description>Strong consistency: every read sees the latest write, and what that costs in latency and availability</description>
+    <itunes:summary>Strong consistency: every read sees the latest write, and what that costs in latency and availability</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-23-strong-consistency.mp3" length="1571008" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-23-strong-consistency</guid>
+    <pubDate>Fri, 23 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>196</itunes:duration>
+    <itunes:episode>14</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 13: Eventual consistency</title>
+    <description>Eventual consistency: replicas converge over time, trading fresh reads for speed and availability.</description>
+    <itunes:summary>Eventual consistency: replicas converge over time, trading fresh reads for speed and availability.</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-22-eventual-consistency.mp3" length="1396510" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-22-eventual-consistency</guid>
+    <pubDate>Thu, 22 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>175</itunes:duration>
+    <itunes:episode>13</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
+  <item>
+    <title>Day 12: ACID</title>
+    <description>ACID: the four transaction guarantees, the write-ahead log, and why isolation levels still matter</description>
+    <itunes:summary>ACID: the four transaction guarantees, the write-ahead log, and why isolation levels still matter</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-10-21-acid.mp3" length="1552409" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-10-21-acid</guid>
+    <pubDate>Wed, 21 Oct 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>194</itunes:duration>
+    <itunes:episode>12</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
   <item>
     <title>Day 11: BASE</title>
     <description>BASE: Basically Available, Soft state, Eventually consistent, the availability-first alternative to ACID and what it costs your app.</description>

@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 20 of 77, and today we're talking about checkpointing.
+
+Yesterday we talked about the write-ahead log, the append-only journal a database writes before it touches the real data. Today is the other half of that story. If the log just keeps growing forever, two bad things happen. First, your disk fills up. Second, and worse, when the database crashes, recovery has to replay that entire log from the very beginning. Imagine restarting a busy server and waiting hours while it re-reads a year of changes. Nobody wants that.
+
+A checkpoint is the fix. Every so often, the database takes all the dirty pages sitting in memory, meaning pages that were changed but not yet written to their home on disk, and flushes them out. Then it writes a little marker into the log that says, in effect, everything before this point is safely in the data files. After a crash, recovery starts at the last checkpoint instead of the beginning of time. And any log segments older than that checkpoint can be recycled or deleted.
+
+Here's a concrete example. In Postgres, a checkpoint runs every five minutes by default, or sooner if the write-ahead log grows past a size limit called max wal size. If you've ever read Postgres logs and seen a warning that says checkpoints are occurring too frequently, that's the database telling you your write volume is forcing checkpoints much more often than you planned. SQLite in write-ahead log mode does something similar. Once the log file reaches about a thousand pages, it copies those changes back into the main database file, and the log can start over.
+
+The idea shows up outside databases too. Stream processors like Apache Flink checkpoint the state of a running job, so a failed worker can restart from a recent snapshot instead of reprocessing the whole stream. Long machine learning training runs save checkpoints so a crash at hour forty doesn't send you back to hour zero. Even a video game save point is the same trick. Snapshot your progress, so you can throw away the history that led up to it.
+
+So what's the trade-off? It's a tug of war between recovery time and steady-state performance. Checkpoint often, and recovery is quick and the log stays small. But every checkpoint is a burst of disk writes, and frequent checkpoints mean the same hot page gets flushed again and again. There's also a subtle cost in Postgres. The first time a page changes after a checkpoint, the database writes the full page image into the log to protect against torn writes, so more checkpoints means a bigger log. Checkpoint rarely, and normal operation is smoother, but crash recovery takes longer and you need more disk for the log.
+
+Databases soften this by spreading the work out. Postgres has a setting called checkpoint completion target that trickles the writes across most of the interval instead of dumping them all at once, so your queries don't stall during a sudden input output spike.
+
+The one line takeaway? The log gives you durability, and checkpoints give you a bounded amount of log to care about.
+
+That's it for today. See you tomorrow, eventually.

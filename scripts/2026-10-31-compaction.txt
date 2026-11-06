@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 21 of 77, and today we're talking about compaction.
+
+Yesterday we talked about checkpointing, which is how a database cleans up after its write-ahead log. Compaction is a close cousin. It's how storage engines that never overwrite data in place keep from drowning in their own history.
+
+So here's the setup. A lot of modern databases, like Cassandra, RocksDB, LevelDB, and ScyllaDB, use something called a log-structured merge tree, or L S M tree for short. The idea is simple. When you write something, it goes into a sorted structure in memory. When that fills up, the engine flushes it to disk as an immutable sorted file, often called an S S table, which stands for sorted string table. Writes are fast because they're always sequential appends. Nothing on disk ever gets edited.
+
+But think about what that means over time. If you update the same user record ten times, you now have ten versions sitting in ten different files. If you delete something, you don't actually remove it. You write a little marker called a tombstone that says, this key is dead. And every read has to check more and more files to find the newest version of a key.
+
+That's why compaction exists. In the background, the engine picks a group of those sorted files and merges them together, like a merge step in merge sort. For each key it keeps only the newest value, drops the older versions, and throws away tombstones once it's safe to. Out comes a smaller set of bigger, cleaner files, and the old ones get deleted.
+
+There are two big strategies. Size-tiered compaction waits until there are several files of similar size and merges them into one larger file. It's cheap on writes, but it can temporarily need a lot of extra disk, and reads may still touch several files. Leveled compaction organizes files into levels, where each level is about ten times bigger than the one before, and keys don't overlap within a level. Reads get much faster and space is tighter, but the engine rewrites the same data over and over as it moves down the levels.
+
+Here's a real example. Cassandra operators have a famous failure story. A team deletes a huge batch of rows, expecting their disk usage to drop. Instead, it goes up, because every delete wrote a tombstone. Then reads slow to a crawl, because queries have to scan past thousands of tombstones, and Cassandra starts logging warnings about tombstone thresholds. The data doesn't really disappear until compaction runs and the grace period, which defaults to ten days, has passed. That grace period exists so a replica that was offline doesn't bring the deleted data back to life.
+
+So what's the trade-off? Compaction is the price you pay for cheap writes. It costs disk input and output, and C P U, and it causes write amplification, which we'll cover later in this series. Run it too lazily and reads get slow and disk fills with garbage. Run it too aggressively and it competes with your real traffic, causing latency spikes. Tuning compaction is really choosing between write cost, read cost, and space cost. You can make two of them good, but rarely all three.
+
+That's it for today. See you tomorrow, eventually.

@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 18 of 77, and today we're talking about three-phase commit.
+
+Quick recap from yesterday. Two-phase commit lets a coordinator get several databases to agree on one outcome. First everyone votes, then the coordinator says commit or abort. It works, but it has one famous weak spot. If the coordinator crashes right after participants vote yes, those participants are stuck. They promised to commit, they're holding locks, and they have no idea what the final decision was. They just wait. That's called blocking, and it's exactly the problem three-phase commit was invented to fix.
+
+So what is it? Three-phase commit splits the second step in half. Phase one is the same: the coordinator asks, can you commit? Everyone votes. Phase two is new. If everyone said yes, the coordinator sends a message called pre-commit. It basically means, everyone agreed, get ready, the decision is going to be commit. Participants acknowledge that. Only then, in phase three, does the coordinator send the actual do-commit message.
+
+Why does that extra step help? Because it removes the scary ambiguous state. In two-phase commit, a participant that voted yes can't tell whether the others also voted yes, or whether someone said no and the transaction is aborting. In three-phase commit, if you've received pre-commit, you know everyone voted yes. If you haven't, you know nobody could have committed yet. That means participants can use timeouts. If the coordinator disappears, the survivors talk to each other, elect a new coordinator, look at who reached which phase, and finish the job safely without waiting for the crashed node to come back.
+
+Here's a concrete picture. Imagine a travel booking that reserves a flight in one database and a hotel in another. With two-phase commit, if the coordinator dies mid-decision, both rows stay locked until someone restarts it. With three-phase commit, the flight and hotel services notice the silence, compare notes, see that both got pre-commit, and go ahead and commit on their own.
+
+Now the trade-off, and it's a big one. Three-phase commit only stays safe under a pretty friendly assumption: messages arrive within a known time and the network doesn't split into pieces. In the real world, networks partition. Picture half the participants received pre-commit and half didn't, and then the network splits. Each side elects its own recovery coordinator. One side decides commit, the other decides abort. Now your data is inconsistent, which is worse than just waiting. On top of that, you pay an extra round trip on every single transaction, so latency goes up.
+
+That's why you almost never see three-phase commit in production systems. Instead, modern databases like Spanner and CockroachDB keep two-phase commit but make the coordinator itself fault tolerant by replicating its state with a consensus protocol like Paxos or Raft. The coordinator can't really die, because a group of machines plays that role together. And for many business workflows, teams skip atomic commit entirely and use sagas with compensating actions.
+
+So the interview answer is: three-phase commit removes blocking by adding a pre-commit phase, but it breaks under network partitions and adds latency, so real systems prefer two-phase commit on top of consensus.
+
+That's it for today. See you tomorrow, eventually.

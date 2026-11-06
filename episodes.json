@@ -86,5 +86,159 @@
   "guid": "tech-bites-2026-10-20-base",
   "pubDate": "Tue, 20 Oct 2026 08:30:00 -0400",
   "summary": "BASE: Basically Available, Soft state, Eventually consistent, the availability-first alternative to ACID and what it costs your app."
+ },
+ {
+  "date": "2026-10-21",
+  "day": 12,
+  "title": "Day 12: ACID",
+  "file": "2026-10-21-acid.mp3",
+  "bytes": 1552409,
+  "duration": 194,
+  "guid": "tech-bites-2026-10-21-acid",
+  "pubDate": "Wed, 21 Oct 2026 08:30:00 -0400",
+  "summary": "ACID: the four transaction guarantees, the write-ahead log, and why isolation levels still matter"
+ },
+ {
+  "date": "2026-10-22",
+  "day": 13,
+  "title": "Day 13: Eventual consistency",
+  "file": "2026-10-22-eventual-consistency.mp3",
+  "bytes": 1396510,
+  "duration": 175,
+  "guid": "tech-bites-2026-10-22-eventual-consistency",
+  "pubDate": "Thu, 22 Oct 2026 08:30:00 -0400",
+  "summary": "Eventual consistency: replicas converge over time, trading fresh reads for speed and availability."
+ },
+ {
+  "date": "2026-10-23",
+  "day": 14,
+  "title": "Day 14: Strong consistency",
+  "file": "2026-10-23-strong-consistency.mp3",
+  "bytes": 1571008,
+  "duration": 196,
+  "guid": "tech-bites-2026-10-23-strong-consistency",
+  "pubDate": "Fri, 23 Oct 2026 08:30:00 -0400",
+  "summary": "Strong consistency: every read sees the latest write, and what that costs in latency and availability"
+ },
+ {
+  "date": "2026-10-24",
+  "day": 15,
+  "title": "Day 15: Snapshot isolation",
+  "file": "2026-10-24-snapshot-isolation.mp3",
+  "bytes": 1567664,
+  "duration": 196,
+  "guid": "tech-bites-2026-10-24-snapshot-isolation",
+  "pubDate": "Sat, 24 Oct 2026 08:30:00 -0400",
+  "summary": "Snapshot isolation: consistent reads from a frozen view of the database, and the write skew trap"
+ },
+ {
+  "date": "2026-10-25",
+  "day": 16,
+  "title": "Day 16: MVCC (Multi-Version Concurrency Control)",
+  "file": "2026-10-25-mvcc-multi-version-concurrency-control.mp3",
+  "bytes": 1473206,
+  "duration": 184,
+  "guid": "tech-bites-2026-10-25-mvcc-multi-version-concurrency-control",
+  "pubDate": "Sun, 25 Oct 2026 08:30:00 -0400",
+  "summary": "MVCC: how databases keep multiple row versions so readers never block writers, and the cleanup cost that comes with it."
+ },
+ {
+  "date": "2026-10-26",
+  "day": 17,
+  "title": "Day 17: Two-phase commit (2PC)",
+  "file": "2026-10-26-two-phase-commit-2pc.mp3",
+  "bytes": 1645823,
+  "duration": 206,
+  "guid": "tech-bites-2026-10-26-two-phase-commit-2pc",
+  "pubDate": "Mon, 26 Oct 2026 08:30:00 -0400",
+  "summary": "Two-phase commit: how a coordinator gets several databases to vote, then commit or abort together, and why it blocks when the coordinator crashes."
+ },
+ {
+  "date": "2026-10-27",
+  "day": 18,
+  "title": "Day 18: Three-phase commit (3PC)",
+  "file": "2026-10-27-three-phase-commit-3pc.mp3",
+  "bytes": 1558469,
+  "duration": 195,
+  "guid": "tech-bites-2026-10-27-three-phase-commit-3pc",
+  "pubDate": "Tue, 27 Oct 2026 08:30:00 -0400",
+  "summary": "Three-phase commit adds a pre-commit step to avoid 2PC blocking, but breaks under network partitions."
+ },
+ {
+  "date": "2026-10-29",
+  "day": 19,
+  "title": "Day 19: Write-ahead logging (WAL)",
+  "file": "2026-10-29-write-ahead-logging-wal.mp3",
+  "bytes": 1583547,
+  "duration": 198,
+  "guid": "tech-bites-2026-10-29-write-ahead-logging-wal",
+  "pubDate": "Thu, 29 Oct 2026 08:30:00 -0400",
+  "summary": "Write-ahead logging: why databases write changes to an append-only log before touching data, and how that log powers crash recovery, replication and point-in-time restore."
+ },
+ {
+  "date": "2026-10-30",
+  "day": 20,
+  "title": "Day 20: Checkpointing",
+  "file": "2026-10-30-checkpointing.mp3",
+  "bytes": 1406959,
+  "duration": 176,
+  "guid": "tech-bites-2026-10-30-checkpointing",
+  "pubDate": "Fri, 30 Oct 2026 08:30:00 -0400",
+  "summary": "Checkpointing: how databases flush dirty pages and mark a safe point in the log so crash recovery stays fast and old log segments can be recycled."
+ },
+ {
+  "date": "2026-10-31",
+  "day": 21,
+  "title": "Day 21: Compaction",
+  "file": "2026-10-31-compaction.mp3",
+  "bytes": 1456905,
+  "duration": 182,
+  "guid": "tech-bites-2026-10-31-compaction",
+  "pubDate": "Sat, 31 Oct 2026 08:30:00 -0400",
+  "summary": "How LSM-tree databases merge old files, drop tombstones, and trade write, read, and space costs."
+ },
+ {
+  "date": "2026-11-01",
+  "day": 22,
+  "title": "Day 22: Rebalancing",
+  "file": "2026-11-01-rebalancing.mp3",
+  "bytes": 1490342,
+  "duration": 186,
+  "guid": "tech-bites-2026-11-01-rebalancing",
+  "pubDate": "Sun, 01 Nov 2026 08:30:00 -0400",
+  "summary": "How clusters move data between nodes as they grow, shrink, or get lopsided, and why eager rebalancing can turn a blip into an outage."
+ },
+ {
+  "date": "2026-11-02",
+  "day": 23,
+  "title": "Day 23: Resharding",
+  "file": "2026-11-02-resharding.mp3",
+  "bytes": 1430574,
+  "duration": 179,
+  "guid": "tech-bites-2026-11-02-resharding",
+  "pubDate": "Mon, 02 Nov 2026 08:30:00 -0400",
+  "summary": "Resharding: changing shard count or shard key while the system keeps running, how online reshards work, and why cutover is the scary part."
+ },
+ {
+  "date": "2026-11-05",
+  "day": 24,
+  "title": "Day 24: Data locality",
+  "file": "2026-11-05-data-locality.mp3",
+  "bytes": 1379583,
+  "duration": 172,
+  "guid": "tech-bites-2026-11-05-data-locality",
+  "pubDate": "Thu, 05 Nov 2026 08:30:00 -0400",
+  "summary": "Data locality: keep related data close to the code that uses it, and the latency trade-offs when you don't."
+ },
+ {
+  "date": "2026-11-06",
+  "day": 25,
+  "title": "Day 25: Hot partition",
+  "file": "2026-11-06-hot-partition.mp3",
+  "bytes": 1648331,
+  "duration": 206,
+  "guid": "tech-bites-2026-11-06-hot-partition",
+  "pubDate": "Fri, 06 Nov 2026 08:30:00 -0400",
+  "summary": "Hot partitions: when one shard takes all the heat and how systems cope"
  }
 ]

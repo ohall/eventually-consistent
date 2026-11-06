@@ -1,0 +1,15 @@
+Hey, welcome to Eventually Consistent. This is day twenty four of seventy seven, and today we're talking about data locality.
+
+Data locality is the idea that you should keep the data a program needs close to the code that uses it, and keep related pieces of data close to each other. Close can mean in the same cache line, on the same disk page, in the same rack, or in the same region. The goal is the same either way: fewer round trips, less waiting, and more work done per unit of time.
+
+It exists because moving data is expensive. A modern C P U can execute billions of instructions per second, but a miss that goes all the way to main memory costs hundreds of cycles. Crossing a network to another data center costs milliseconds. If your query plan or your service boundary keeps yanking rows or objects from far away, you burn latency and capacity on shipping bytes instead of answering the question.
+
+Here is a concrete example. Imagine an e-commerce app that stores orders in one Postgres database and order line items in another, maybe because they grew separately or because different teams own them. To render a customer's last order, your A P I fetches the order header, then for each line item it calls the other service. That is fine at ten requests a second. At a thousand, you are drowning in cross-service chatter. The fix is data locality: denormalize a snapshot of the line items onto the order document, or put both tables in the same database so one query with a join pulls everything in one round trip. Kafka consumers show the same pattern. If you partition by user I D and keep that user's events on one partition, the consumer that owns that partition already has locality. Re-key by a different field and suddenly every consumer is reaching across the cluster for related messages.
+
+Another classic case is columnar analytics. A warehouse that stores sales as columns keeps all the amounts together on disk. A report that only needs sum of amount and date range reads a few contiguous blocks instead of every wide row. That is spatial locality on disk, and it is why columnar stores crush row stores for scans.
+
+The trade-off is real. Locality often means copying data, co-locating services that used to be independent, or choosing a partition key that favors one access pattern over another. When you duplicate for locality, you inherit consistency headaches we covered earlier in this series. When you pin related data to one shard, that shard can become a hot partition if one key is too popular. When you co-locate for network locality, you lose some isolation and make independent deploys harder.
+
+So the practical rule is: measure where time goes. If profiles show cache misses, cross-zone calls, or chatty joins, ask whether the data and the computation can live closer together. Sometimes that is a covering index. Sometimes it is moving a microservice next to its database. Sometimes it is accepting a little denormalization so one read is enough.
+
+That's it for today. See you tomorrow, eventually.

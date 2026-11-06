@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 19 of 77, and today we're talking about write-ahead logging, usually shortened to W A L, or just "the wal."
+
+Here's the problem it solves. A database keeps its data in pages on disk, and changing a row means rewriting part of one of those pages. But disks and operating systems don't promise that a big write lands all at once. If the power cuts out halfway through, you can end up with a page that's half old and half new. Worse, a single transaction might touch ten different pages scattered all over the disk. Writing every one of them, carefully, before telling the user "committed" would be painfully slow.
+
+So databases follow one simple rule. Before you change the real data, you first write a description of the change to a log, and you make sure that log entry is safely on disk. That's the "write-ahead" part. The log is append-only, which means new entries always go on the end. Appending to the end of one file is about the fastest thing a disk can do, much faster than jumping around to update random pages.
+
+Once the log record is flushed, the database can say "your transaction is committed," even though the actual table pages are still only changed in memory. Those dirty pages get written out later, lazily, in big efficient batches. That background step is called a checkpoint.
+
+Now picture the crash. The server reboots, and the data files are a mess: some changes made it, some didn't, maybe a page is torn. The database doesn't panic. It finds the last checkpoint, then reads the log forward from there and replays every change. Anything committed gets redone. Anything that never committed gets thrown away or undone. When it finishes, the data matches exactly what users were promised.
+
+A real example is Postgres. Every insert, update and delete produces wal records in the p g underscore wal directory. And here's the fun part: because the log is a complete, ordered history of changes, it turned out to be useful for way more than crash recovery. Postgres streaming replication works by shipping those wal records to a replica, which replays them just like it would after a crash. Point-in-time recovery works by taking a base backup and replaying the archived log up to, say, two minutes before someone dropped the wrong table. And change data capture tools like Debezium read the same log to stream changes into Kafka. SQLite has a wal mode, and MySQL's InnoDB has its redo log, which is the same idea under a different name.
+
+So what's the trade-off? First, every change is written at least twice: once to the log and once to the data file. That's a big piece of the write amplification we talked about earlier in the series. Second, durability costs latency. To truly guarantee a commit, the database has to call f sync and wait for the disk to confirm. Systems soften this with group commit, flushing many transactions in one go, or let you relax it, like Postgres's synchronous commit off setting, which trades losing the last fraction of a second of commits for speed. Third, the log grows. If checkpoints fall behind, or a replica stops consuming, wal files pile up and can fill your disk.
+
+The one-line takeaway: write down what you're going to do, durably, before you do it, and a crash becomes something you replay instead of something you fear.
+
+That's it for today. See you tomorrow, eventually.

@@ -1,0 +1,19 @@
+Hey, welcome to Eventually Consistent. This is day 16 of 77, and today we're talking about M V C C, which stands for multi-version concurrency control.
+
+Yesterday we talked about snapshot isolation, where every transaction reads the database as it looked at one frozen moment. Today is the machinery that makes that possible.
+
+So here's the idea. In a simple database, when you update a row, you overwrite it. That means if someone else is reading that row at the same moment, one of you has to wait. Either the reader takes a lock and the writer waits, or the writer takes a lock and the reader waits. With M V C C, an update doesn't overwrite anything. It writes a brand new version of the row and leaves the old one in place. Each version is stamped with the transaction that created it, and the transaction that replaced it. When you read, the database just picks the version that was visible as of your snapshot.
+
+Why does this exist? Because most real workloads are full of reads, and making readers and writers fight over locks is painfully slow. With M V C C, readers never block writers, and writers never block readers. A big report can scan a table for ten minutes while orders keep flowing in, and the report still sees one consistent picture.
+
+Let's make it concrete with Postgres. Every row in Postgres carries two hidden fields, called x min and x max. X min is the transaction that created this version. X max is the transaction that deleted or replaced it. When you run an update, Postgres marks the old row with an x max and inserts a fresh copy. Your query checks those two numbers against its snapshot and decides which copy it's allowed to see. My S Q L's InnoDB engine does something similar but in reverse. It updates the row in place and keeps the older versions in an undo log, rebuilding the old view when an older snapshot asks for it.
+
+Now here's the catch, and it's a real one. All those old versions have to be cleaned up eventually. In Postgres that's the job of vacuum. It removes versions nobody can see anymore. But vacuum can only remove a version once every open transaction is done with it. So picture this. Someone opens a transaction in a database console, gets distracted, and goes to lunch. That one idle transaction holds an old snapshot, and now vacuum can't clean up anything newer than it. Meanwhile a busy table keeps updating, dead rows pile up, the table bloats to several times its real size, and queries get slower and slower. That's a classic production incident, and the fix is boring: watch for long running transactions and set idle timeouts.
+
+The other thing to remember is that M V C C solves reading, not writing. If two transactions try to update the same row, one still has to wait or fail. Versions don't make conflicting writes disappear.
+
+So the trade-off is this. You get reads that never wait and consistent snapshots almost for free, and in exchange you pay in extra storage, background cleanup work, and a new way to hurt yourself with forgotten transactions.
+
+Tomorrow we'll look at two-phase commit, which is about getting several machines to agree on a single transaction.
+
+That's it for today. See you tomorrow, eventually.

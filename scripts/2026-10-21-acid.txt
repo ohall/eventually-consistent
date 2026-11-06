@@ -1,0 +1,17 @@
+Hey, welcome to Eventually Consistent. This is day 12 of 77, and today we're talking about ACID.
+
+Yesterday we covered BASE, the relaxed, eventually consistent way of doing things. ACID is the strict sibling it was named against. ACID is a set of four promises a database makes about a transaction, which is just a group of reads and writes you want treated as one unit of work. The four letters stand for atomicity, consistency, isolation, and durability.
+
+Atomicity means all or nothing. Either every step in the transaction happens, or none of them do. Consistency means the transaction moves the database from one valid state to another, so rules like "a balance can't go negative" or "every order points at a real customer" still hold afterward. Isolation means transactions running at the same time don't trip over each other's half-finished work. And durability means once the database tells you "committed," that data survives a crash or a power cut.
+
+So why does this exist? Because two things go wrong constantly in real systems. First, partial failure. Your app crashes, the network drops, the server reboots, right in the middle of a multi-step change. Second, concurrency. Thousands of requests are touching the same rows at the same moment. Without ACID, every application would have to handle both of those problems by hand, and almost every team would get it subtly wrong.
+
+Here's the classic example. You move one hundred dollars from checking to savings in Postgres. You begin a transaction, subtract one hundred from checking, add one hundred to savings, and commit. If the server dies after the subtraction but before the addition, atomicity means that half-done change is rolled back, so the money doesn't just vanish. Durability comes from the write-ahead log. Postgres writes the change to a log file and flushes it to disk before it says "committed," so after a crash it replays the log and nothing confirmed is lost. And isolation means that if you check your total balance mid-transfer from another session, you don't see the money missing from both accounts at once.
+
+Now the trade-off, and it's a real one. Those guarantees cost coordination. Isolation means locks or version tracking, durability means waiting on the disk, and atomicity across multiple machines means extra round trips between them. That costs throughput and latency, and it gets much harder once data is spread across many nodes, which is exactly why systems like DynamoDB and Cassandra leaned toward BASE.
+
+There's also a sneaky catch inside the letter I. Isolation comes in levels. Postgres defaults to read committed, not serializable, which is the strictest level. Read committed is fast, but it still allows some anomalies, like two transactions each reading a value, deciding there's room, and both writing, so you double-book the last seat. Serializable prevents that, but transactions can fail and need retrying. So "my database is ACID" doesn't automatically mean "my app is safe." You still have to know which isolation level you're running and whether your logic depends on something stronger.
+
+The short version: ACID buys you correctness you don't have to think about, at the price of speed and scale. BASE buys you scale and availability, and hands the correctness problem back to you.
+
+That's it for today. See you tomorrow, eventually.

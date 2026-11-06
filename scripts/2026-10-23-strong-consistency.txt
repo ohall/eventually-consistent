@@ -1,0 +1,19 @@
+Hey, welcome to Eventually Consistent. This is day 14 of 77, and today we're talking about strong consistency.
+
+Yesterday we talked about eventual consistency, where replicas catch up sooner or later. Strong consistency is the opposite promise. Once a write is confirmed, every read that comes after it, from any client, talking to any replica, sees that write or something newer. No stale reads, ever. The system behaves as if there's just one copy of the data, even though there might be five copies spread across three data centers. The strictest version of this has a name you'll hear in interviews: linearizability. It means every operation appears to happen at a single instant, in an order that matches real time.
+
+So why does this exist? Because some things simply can't be a little bit wrong. Think about a bank balance, the last seat on a flight, a distributed lock, or making sure two people can't register the same username. If two replicas disagree for even a second, you can double spend money or sell the same seat twice. Strong consistency lets application developers stop worrying about that whole class of bugs. You write a value, you read it back, and it's there.
+
+Let's look at real examples. Systems like etcd, which Kubernetes uses to store its cluster state, are built on a consensus algorithm called Raft. A write only counts as committed once a majority of nodes, a quorum, have accepted it. Reads either go through the leader or confirm with a quorum, so you never get an old answer. Kubernetes relies on this so that two controllers don't both think they own the same pod.
+
+Google Spanner goes even further and offers strong consistency across the whole planet. It uses something called TrueTime, which is backed by atomic clocks and GPS receivers in each data center. When a transaction commits, Spanner actually waits out the clock uncertainty, usually a few milliseconds, before it tells you it's done. That small pause is what guarantees that everyone, everywhere, agrees on the order of events.
+
+And even on everyday databases you get to choose. In Amazon DynamoDB, reads are eventually consistent by default, but you can ask for a strongly consistent read. It costs twice as many read capacity units, and it isn't available on global secondary indexes. That price tag tells you something.
+
+Here's the trade-off. Strong consistency costs coordination, and coordination costs time. Every write has to wait for a majority of replicas, and if those replicas are on different continents, you're paying for the speed of light on every request. It also costs availability. Remember the CAP theorem: during a network partition, a strongly consistent system has to refuse some requests rather than risk giving a wrong answer. If the leader can't reach a quorum, it stops accepting writes. That's the correct behavior, but your users will see errors or timeouts.
+
+So the practical move is to be selective. Use strong consistency for the small set of data where being wrong is expensive, like money, inventory, locks, and identity. Use eventual consistency for the rest, like like counts, feeds, and analytics, where a few seconds of staleness is fine.
+
+A good interview line is this. Strong consistency doesn't make your system correct for free. It moves the cost from your application code into latency and availability, and you decide where that cost is worth paying.
+
+That's it for today. See you tomorrow, eventually.

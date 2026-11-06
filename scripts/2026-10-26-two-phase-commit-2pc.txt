@@ -1,0 +1,21 @@
+Hey, welcome to Eventually Consistent. This is day 17 of 77, and today we're talking about two-phase commit.
+
+Here's the problem. You've got one business action, but the data lives in two places. Say a customer books a trip, and you need to charge their card in the payments database and reserve a seat in the inventory database. Either both of those happen, or neither does. Charging someone for a seat they didn't get is a very bad day. A single database gives you that all-or-nothing guarantee with a transaction. But once the work spans two separate systems, no single database can promise it on its own. Two-phase commit is the classic protocol that stretches one atomic transaction across several participants.
+
+It works with a coordinator and a set of participants, and, as the name says, it runs in two phases.
+
+Phase one is the prepare phase, sometimes called the voting phase. The coordinator asks every participant, can you commit this? Each participant does all the real work, checks its constraints, takes the locks it needs, and writes everything durably to its log. Then it votes yes or no. And here's the key part. A yes vote is a promise. Once a participant says yes, it has given up the right to back out on its own. It has to wait for the final decision, no matter what.
+
+Phase two is the commit phase. If every participant voted yes, the coordinator writes a commit decision to its own log and tells everyone to commit. If even one participant voted no, or didn't answer in time, the coordinator tells everyone to abort. Participants apply the decision, release their locks, and acknowledge.
+
+Where do you see this for real? The X slash Open standard, usually written X A, is two-phase commit, and it's what Java transaction managers use to tie together a database and a message broker. Postgres has a PREPARE TRANSACTION command so an outside coordinator can drive it. And inside distributed databases like Google Spanner and Cockroach D B, two-phase commit is how a transaction that touches several shards commits atomically. They make it sturdier by running each participant, and the coordinator, on top of a replicated consensus group, so one machine dying doesn't lose the decision.
+
+Now the trade-off, and it's a big one. Two-phase commit is a blocking protocol. Picture this. Every participant has voted yes, they're all holding locks, and then the coordinator crashes before it sends the decision. The participants are stuck. They can't commit, because maybe someone else voted no. They can't abort, because maybe the coordinator already decided commit and told somebody. So they sit there holding locks until the coordinator comes back. Those are often called in-doubt transactions, and they can freeze up rows that other traffic badly needs.
+
+On top of that, you pay extra network round trips and extra disk flushes on every transaction, and your availability becomes the availability of every participant multiplied together. One slow service makes the whole thing slow.
+
+That's why a lot of microservice architectures skip two-phase commit across services. Instead they use sagas, a series of local transactions with compensating actions to undo things, or the outbox pattern, which is coming up later in our list. You give up instant atomicity and accept some temporary inconsistency, in exchange for never getting stuck.
+
+So, the short version. Two-phase commit gives you all-or-nothing across systems by making everyone vote first, then commit together. It's correct, but it blocks when the coordinator disappears.
+
+That's it for today. See you tomorrow, eventually.
