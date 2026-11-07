@@ -240,5 +240,16 @@
   "guid": "tech-bites-2026-11-06-hot-partition",
   "pubDate": "Fri, 06 Nov 2026 08:30:00 -0400",
   "summary": "Hot partitions: when one shard takes all the heat and how systems cope"
+ },
+ {
+  "date": "2026-11-07",
+  "day": 26,
+  "title": "Day 26: Split-brain",
+  "file": "2026-11-07-split-brain.mp3",
+  "bytes": 1529839,
+  "duration": 191,
+  "guid": "tech-bites-2026-11-07-split-brain",
+  "pubDate": "Sat, 07 Nov 2026 08:30:00 -0400",
+  "summary": "Split-brain: when a network partition leaves two active primaries writing conflicting truth, and how quorum and fencing prevent it"
  }
 ]

@@ -14,7 +14,19 @@
   <itunes:category text="Technology"/>
   <itunes:explicit>false</itunes:explicit>
   <itunes:type>episodic</itunes:type>
-  <lastBuildDate>Fri, 06 Nov 2026 13:55:57 +0000</lastBuildDate>
+  <lastBuildDate>Sat, 07 Nov 2026 13:43:44 +0000</lastBuildDate>
+  <item>
+    <title>Day 26: Split-brain</title>
+    <description>Split-brain: when a network partition leaves two active primaries writing conflicting truth, and how quorum and fencing prevent it</description>
+    <itunes:summary>Split-brain: when a network partition leaves two active primaries writing conflicting truth, and how quorum and fencing prevent it</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-11-07-split-brain.mp3" length="1529839" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-11-07-split-brain</guid>
+    <pubDate>Sat, 07 Nov 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>191</itunes:duration>
+    <itunes:episode>26</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
   <item>
     <title>Day 25: Hot partition</title>
     <description>Hot partitions: when one shard takes all the heat and how systems cope</description>
