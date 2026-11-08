@@ -14,7 +14,19 @@
   <itunes:category text="Technology"/>
   <itunes:explicit>false</itunes:explicit>
   <itunes:type>episodic</itunes:type>
-  <lastBuildDate>Sat, 07 Nov 2026 13:43:44 +0000</lastBuildDate>
+  <lastBuildDate>Sun, 08 Nov 2026 13:41:07 +0000</lastBuildDate>
+  <item>
+    <title>Day 27: Failover</title>
+    <description>Failover: detect a dead primary, fence it, promote a standby, and redirect clients, plus the speed-versus-safety trade-off</description>
+    <itunes:summary>Failover: detect a dead primary, fence it, promote a standby, and redirect clients, plus the speed-versus-safety trade-off</itunes:summary>
+    <enclosure url="https://tech-bites-podcast.vercel.app/episodes/2026-11-08-failover.mp3" length="1593160" type="audio/mpeg"/>
+    <guid isPermaLink="false">tech-bites-2026-11-08-failover</guid>
+    <pubDate>Sun, 08 Nov 2026 08:30:00 -0400</pubDate>
+    <itunes:duration>199</itunes:duration>
+    <itunes:episode>27</itunes:episode>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:episodeType>full</itunes:episodeType>
+  </item>
   <item>
     <title>Day 26: Split-brain</title>
     <description>Split-brain: when a network partition leaves two active primaries writing conflicting truth, and how quorum and fencing prevent it</description>

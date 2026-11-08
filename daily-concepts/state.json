@@ -78,7 +78,7 @@
     "Outbox pattern",
     "Tail latency amplification"
   ],
-  "next": 26,
+  "next": 27,
   "round": 1,
   "history": [
     {
@@ -236,6 +236,12 @@
       "concept": "Split-brain",
       "round": 1,
       "angle": "core explainer: two sides of a cluster both think they are primary after a network partition; why (availability under partition without fencing); classic dual-primary writes / etcd Raft minority stalls / Kubernetes lease fencing; trade-off of availability vs consistency and the need for fencing tokens / STONITH / quorum"
+    },
+    {
+      "date": "2026-11-08",
+      "concept": "Failover",
+      "round": 1,
+      "angle": "core explainer: detect/fence/promote/redirect from a failed primary to a standby; why (RTO vs waiting for humans); Patroni/Postgres + RDS Multi-AZ + Kubernetes lease example tying to yesterday's split-brain; trade-off of failover speed vs safety (flapping/split-brain) and sync vs async (RPO vs write latency), automatic vs manual"
     }
   ],
   "sources": [

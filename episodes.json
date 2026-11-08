@@ -251,5 +251,16 @@
   "guid": "tech-bites-2026-11-07-split-brain",
   "pubDate": "Sat, 07 Nov 2026 08:30:00 -0400",
   "summary": "Split-brain: when a network partition leaves two active primaries writing conflicting truth, and how quorum and fencing prevent it"
+ },
+ {
+  "date": "2026-11-08",
+  "day": 27,
+  "title": "Day 27: Failover",
+  "file": "2026-11-08-failover.mp3",
+  "bytes": 1593160,
+  "duration": 199,
+  "guid": "tech-bites-2026-11-08-failover",
+  "pubDate": "Sun, 08 Nov 2026 08:30:00 -0400",
+  "summary": "Failover: detect a dead primary, fence it, promote a standby, and redirect clients, plus the speed-versus-safety trade-off"
  }
 ]
